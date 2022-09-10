@@ -45,25 +45,39 @@ We'll need **Contributor**, **Data Factory Contributor** and **Storage Blob Cont
 
 2. Create **Synapse Analytics Workspace**. 
 
-<img src="/pictures/synapse1.png" title="sql database"  width="600">
-<img src="/pictures/synapse2.png" title="sql database"  width="600">
+<img src="/pictures/synapse1.png" title="synapse"  width="600">
+<img src="/pictures/synapse2.png" title="synapse"  width="600">
 
-Inside **Synapse Workspace**, create a **Dedicated SQL Pool**.
+Inside **Synapse Workspace**, create a **Dedicated SQL Pool**. (**Manage** tab, then **SQL pools**)
 
-<img src="/pictures/dedicated_pool.png" title="sql database"  width="600">
+<img src="/pictures/dedicated_pool.png" title="dedicated pool"  width="600">
 
-Then create run tables.sql in order to create the SalesOrderHeader and Customer tables.
+Then, inside the dedicated pool just created, run *tables.sql* in order to create the *SalesOrderHeader* and *Customer* tables. (**Develop** tab, then create a **SQL script** and paste in *tables.sql*)
+
+**CAUTION** : make sure you choose the right dedicated pool, not the built in one!!
+
+<img src="/pictures/run_script.png" title="run script"  width="600">
+
+You should now see the created tables in the Data tab :
+
+<img src="/pictures/created_tables.png" title="created tables"  width="600">
 
 3. Create an **Azure Data Lake Gen 2 storage account**, 1 container, and 1 directory called Staging. This Staging folder will be used while creating the pipelines.
 
 4. Create a **Data Factory V2** resource in the Azure Portal.
+
+<img src="/pictures/data_factory1.png" title="data factory"  width="600">
+
+You should be able to reach your Data Factory Workspace :
+
+<img src="/pictures/data_factory_ws.png" title="data factory workspace"  width="600">
 
 
 ## Step 1 : Create Azure resources
 
 A **Linked Service** is a pipeline component that contains the connection information needed to connect to a data source. For example in order to connect to a SQL Server database, you will need the server name, a user name and password. The Linked Service is the first building block in the process, so it has to be created before creating any other pipeline components.
 
-<img src="/pictures/linked_services.png" title="linked services"  width="400">
+<img src="/pictures/linked_services.png" title="linked services"  width="700">
 
 ADF and Synapse provide connectors to 100 plus data sources under the following categories:
 
