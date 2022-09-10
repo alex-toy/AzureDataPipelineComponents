@@ -189,8 +189,8 @@ Now we will create **Data Flows** in **Azure Data Factory** to perform data tran
 
 1. Create Data Flow to extract data from **SalesOrderHeader** table from SQL DB into corresponding table in **Synapse**
 
-<img src="/pictures/dataflow_salestableorderheader1.png" title="dataflow salestableorderheader"  width="600">
-<img src="/pictures/dataflow_salestableorderheader2.png" title="dataflow salestableorderheader"  width="600">
+<img src="/pictures/dataflow_salestableorderheader1.png" title="dataflow salestableorderheader"  width="800">
+<img src="/pictures/dataflow_salestableorderheader2.png" title="dataflow salestableorderheader"  width="800">
 
 Now initiate a debug session and set the **Debug Settings** to 10 rows :
 <img src="/pictures/dataflow_debugsettings.png" title="dataflow debug settings"  width="600">
@@ -205,30 +205,86 @@ Now select **Sink** by clicking on the plus sign :
 Make sure the mappings are correct :
 <img src="/pictures/dataflow_mappings.png" title="dataflow mappings"  width="600">
 
-Give a name to this data flow and pubish it:
+Give a name to this data flow and publish it:
 <img src="/pictures/dataflow_publish.png" title="dataflow publish"  width="600">
 
 2. Create Data Flow to extract data from Customer table in SQL DB into corresponding table in Synapse.
 
-<img src="/pictures/dataflow_salestableorderheader1.png" title="dataflow salestableorderheader"  width="600">
-<img src="/pictures/dataflow_salestableorderheader2.png" title="dataflow salestableorderheader"  width="600">
-
-Now initiate a debug session and set the **Debug Settings** to 10 rows :
-<img src="/pictures/dataflow_debugsettings.png" title="dataflow debug settings"  width="600">
-
-This allows you to do a data preview :
-<img src="/pictures/dataflow_data_preview.png" title="dataflow data preview"  width="600">
+<img src="/pictures/dataflow_customer.png" title="dataflow customer"  width="800">
 
 Now select **Sink** by clicking on the plus sign :
-<img src="/pictures/dataflow_sink.png" title="dataflow sink"  width="600">
-<img src="/pictures/dataflow_sink2.png" title="dataflow sink"  width="600">
+<img src="/pictures/dataflow_sink3.png" title="dataflow sink"  width="600">
 
 Make sure the mappings are correct :
-<img src="/pictures/dataflow_mappings.png" title="dataflow mappings"  width="600">
+<img src="/pictures/dataflow_mappings_customer.png" title="dataflow mappings customer"  width="600">
 
-Give a name to this data flow and pubish it:
-<img src="/pictures/dataflow_publish.png" title="dataflow publish"  width="600">
+Give a name to this data flow and publish it:
+<img src="/pictures/dataflow_publish_customer.png" title="dataflow publish customer"  width="600">
 
 3. Verify that all the data is successfully loaded into Synapse tables SalesOrderHeader, Customer tables.
 
 4. Create a join between SalesOrderHeader and customer tables to display information about the customer.
+
+
+## Step 6 : Transform and Aggregate Data with Data Flows
+
+Now that we have the **Sales Order data** in the **Synapse** table, we will now aggregate Sales by the Customer and store in an Aggregated table.
+
+1. After creating a script in **Azure Synapse**, Create **SalesAggregate table** in Synapse with the following script:
+
+CREATE TABLE SalesAggregate( CustomerID int NOT NULL, TotalSales  float )
+
+CAUTION : make sure you are in the right SQL pool!!
+
+<img src="/pictures/create_aggregate.png" title="create aggregate"  width="600">
+
+In **Data Factory**, create a dataset for the synapse sales aggregate table :
+
+<img src="/pictures/dataset_synapse.png" title="dataset synapse"  width="600">
+<img src="/pictures/dataset_synapse2.png" title="dataset synapse"  width="600">
+
+Then, still in **Data Factory**, create a dataflow for the sales aggregate table :
+
+<img src="/pictures/dataflow_salesaggregate.png" title="dataflow salesaggregate"  width="600">
+
+Then, add a filter :
+
+<img src="/pictures/dataflow_filter.png" title="dataflow filter"  width="600">
+
+Then, select expression builder :
+
+<img src="/pictures/dataflow_expression_builder.png" title="dataflow expression builder"  width="600">
+
+Then, write a filter :
+
+<img src="/pictures/dataflow_expression_builder2.png" title="dataflow expression builder"  width="600">
+
+Then, add a derived column :
+
+<img src="/pictures/dataflow_derived_column.png" title="dataflow derived column"  width="600">
+<img src="/pictures/dataflow_derived_column2.png" title="dataflow derived column"  width="600">
+<img src="/pictures/dataflow_derived_column3.png" title="dataflow derived column"  width="600">
+
+Then, add a sink :
+
+<img src="/pictures/dataflow_sink_synapse_sales_aggregate.png" title="dataflow sink"  width="600">
+
+Then publish. 
+
+Then create a new pipeline to test the dataflow. Drag a dataflow activity, select **dataflow aggregate sales** in settings, select the linked service, select the staging directory
+<img src="/pictures/pipeline.png" title="pipeline"  width="600">
+
+In the end click **Validate** and **Publish**.
+<img src="/pictures/pipeline2.png" title="pipeline"  width="600">
+
+Then, trigger the pipeline and go to **Azure Synapse** to run the following query : 
+
+SELECT TOP 100 * FROM SalesAggregate
+
+And see the result :
+
+<img src="/pictures/pipeline_result.png" title="pipeline"  width="600">
+
+
+2. Create Dataflow to extract SalesOrderHeader data from SQL DB, aggregate and then load onto SalesAggregate table in Synapse
+
