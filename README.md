@@ -16,15 +16,15 @@ Pipeline in Azure Data Factory or Synapse are logical grouping of various activi
 - Dataflow activity to extract data from Data Lake, transform and load into Synapse
 - Control Flow activity to iteratively perform the copy data activities or data flow activities
 
-relationship between pipelines, activities and datasets:
+Relationship between pipelines, activities and datasets:
 
 <img src="/pictures/activities_datasets.png" title="activities datasets"  width="400">
 
 A sample pipeline:
 
-<img src="/pictures/sample_pipeline.png" title="sample pipeline"  width="400">
+<img src="/pictures/sample_pipeline.png" title="sample pipeline"  width="600">
 
-In this project, we'll use these components to build data pipelines. Here are the steps to reproduce the project
+In this project, we'll use these components to build data pipelines. Here are the steps to reproduce the project :
 
 
 ## Step 1 : Create Azure resources
@@ -37,7 +37,22 @@ We'll need **Contributor**, **Data Factory Contributor** and **Storage Blob Cont
 - Select Sample database under Additional settings. 
 - Use Query Editor in the Azure Portal to make sure the sample database is created
 
-2. Create **Synapse Analytics Workspace** and a **Dedicated pool**. Then create run tables.sql in order to create the SalesOrderHeader and Customer tables.
+<img src="/pictures/sql_database1.png" title="sql database"  width="600">
+<img src="/pictures/sql_server.png" title="sql server"  width="600">
+<img src="/pictures/sql_configure.png" title="sql configure"  width="600">
+<img src="/pictures/sql_database2.png" title="sql database"  width="600">
+<img src="/pictures/sql_database3.png" title="sql database"  width="600">
+
+2. Create **Synapse Analytics Workspace**. 
+
+<img src="/pictures/synapse1.png" title="sql database"  width="600">
+<img src="/pictures/synapse2.png" title="sql database"  width="600">
+
+Inside **Synapse Workspace**, create a **Dedicated SQL Pool**.
+
+<img src="/pictures/dedicated_pool.png" title="sql database"  width="600">
+
+Then create run tables.sql in order to create the SalesOrderHeader and Customer tables.
 
 3. Create an **Azure Data Lake Gen 2 storage account**, 1 container, and 1 directory called Staging. This Staging folder will be used while creating the pipelines.
 
