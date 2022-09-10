@@ -115,8 +115,15 @@ In case the connection fails, go into the networking section of you SQL database
 
 <img src="/pictures/linked_services_sql_firewall.png" title="sql firewall linked services"  width="600">
 
-2. Synapse Analytics Workspace, the destination Data Warehouse
-3. Azure Data Lake Gen 2 storage account , the source folder staging files
+2. Azure Data Lake Gen 2 storage account , the source folder staging files
+
+<img src="/pictures/linked_services_gen2_1.png" title="linked services gen2"  width="600">
+<img src="/pictures/linked_services_gen2_2.png" title="linked services gen2"  width="600">
+
+3. Synapse Analytics Workspace, the destination Data Warehouse
+
+<img src="/pictures/linked_services_synapse1.png" title="linked services synapse"  width="600">
+<img src="/pictures/linked_services_synapse2.png" title="linked services synapse"  width="600">
 
 
 
@@ -126,8 +133,13 @@ While the **Linked Service** gives the ability to connect to the data source, **
 
 Let's create the Datasets in Azure Data Factory for the following data sources. Run synapse.sql
 
-- SalesOrderHeader, Customer database tables on the SQL Database
-- SalesOrderHeader, Customer database tables on Synapse Dedicated Pool 
+1. SalesOrderHeader, Customer database tables on the SQL Database
+<img src="/pictures/datasets_sql1.png" title="datasets"  width="600">
+<img src="/pictures/datasets_sql2.png" title="datasets"  width="600">
+<img src="/pictures/datasets_sql3.png" title="datasets"  width="600">
+
+2. SalesOrderHeader, Customer database tables on Synapse Dedicated Pool 
+
 
 
 
