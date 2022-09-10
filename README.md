@@ -61,7 +61,7 @@ Then, inside the dedicated pool just created, run *tables.sql* in order to creat
 
 You should now see the created tables in the Data tab :
 
-<img src="/pictures/created_tables.png" title="created tables"  width="600">
+<img src="/pictures/created_tables.png" title="created tables"  width="300">
 
 3. Create a **Data Factory V2** resource in the Azure Portal.
 
@@ -106,11 +106,17 @@ ADF and Synapse provide connectors to 100 plus data sources under the following 
 
 Let's log into **Azure Data Factory** to create **Linked Services** to the Azure resources we created previously.
 
-Create linked services for each of the following:
+1. Azure SQL Database, the source database
 
-- Azure SQL Database, the source database
-- Synapse Analytics Workspace, the destination Data Warehouse
-- Azure Data Lake Gen 2 storage account , the source folder staging files
+<img src="/pictures/linked_services_sql1.png" title="linked services SQL Database"  width="600">
+<img src="/pictures/linked_services_sql2.png" title="linked services SQL Database"  width="600">
+
+In case the connection fails, go into the networking section of you SQL database and add a firewall rule to allow you IP address :
+
+<img src="/pictures/linked_services_sql_firewall.png" title="sql firewall linked services"  width="600">
+
+2. Synapse Analytics Workspace, the destination Data Warehouse
+3. Azure Data Lake Gen 2 storage account , the source folder staging files
 
 
 
