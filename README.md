@@ -180,3 +180,55 @@ Now create them :
 
 <img src="/pictures/integration_runtime2.png" title="integration runtime"  width="600">
 <img src="/pictures/integration_runtime3.png" title="integration runtime"  width="600">
+
+
+
+## Step 5 : Mapping Dataflows
+
+Now we will create **Data Flows** in **Azure Data Factory** to perform data transformations using the no-code User Interface.
+
+1. Create Data Flow to extract data from **SalesOrderHeader** table from SQL DB into corresponding table in **Synapse**
+
+<img src="/pictures/dataflow_salestableorderheader1.png" title="dataflow salestableorderheader"  width="600">
+<img src="/pictures/dataflow_salestableorderheader2.png" title="dataflow salestableorderheader"  width="600">
+
+Now initiate a debug session and set the **Debug Settings** to 10 rows :
+<img src="/pictures/dataflow_debugsettings.png" title="dataflow debug settings"  width="600">
+
+This allows you to do a data preview :
+<img src="/pictures/dataflow_data_preview.png" title="dataflow data preview"  width="600">
+
+Now select **Sink** by clicking on the plus sign :
+<img src="/pictures/dataflow_sink.png" title="dataflow sink"  width="600">
+<img src="/pictures/dataflow_sink2.png" title="dataflow sink"  width="600">
+
+Make sure the mappings are correct :
+<img src="/pictures/dataflow_mappings.png" title="dataflow mappings"  width="600">
+
+Give a name to this data flow and pubish it:
+<img src="/pictures/dataflow_publish.png" title="dataflow publish"  width="600">
+
+2. Create Data Flow to extract data from Customer table in SQL DB into corresponding table in Synapse.
+
+<img src="/pictures/dataflow_salestableorderheader1.png" title="dataflow salestableorderheader"  width="600">
+<img src="/pictures/dataflow_salestableorderheader2.png" title="dataflow salestableorderheader"  width="600">
+
+Now initiate a debug session and set the **Debug Settings** to 10 rows :
+<img src="/pictures/dataflow_debugsettings.png" title="dataflow debug settings"  width="600">
+
+This allows you to do a data preview :
+<img src="/pictures/dataflow_data_preview.png" title="dataflow data preview"  width="600">
+
+Now select **Sink** by clicking on the plus sign :
+<img src="/pictures/dataflow_sink.png" title="dataflow sink"  width="600">
+<img src="/pictures/dataflow_sink2.png" title="dataflow sink"  width="600">
+
+Make sure the mappings are correct :
+<img src="/pictures/dataflow_mappings.png" title="dataflow mappings"  width="600">
+
+Give a name to this data flow and pubish it:
+<img src="/pictures/dataflow_publish.png" title="dataflow publish"  width="600">
+
+3. Verify that all the data is successfully loaded into Synapse tables SalesOrderHeader, Customer tables.
+
+4. Create a join between SalesOrderHeader and customer tables to display information about the customer.
