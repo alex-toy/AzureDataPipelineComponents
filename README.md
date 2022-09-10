@@ -27,6 +27,7 @@ A sample pipeline:
 In this project, we'll use these components to build data pipelines. Here are the steps to reproduce the project :
 
 
+
 ## Step 1 : Create Azure resources
 
 Let's create the Azure resources necessary to build data pipelines.
@@ -62,9 +63,7 @@ You should now see the created tables in the Data tab :
 
 <img src="/pictures/created_tables.png" title="created tables"  width="600">
 
-3. Create an **Azure Data Lake Gen 2 storage account**, 1 container, and 1 directory called Staging. This Staging folder will be used while creating the pipelines.
-
-4. Create a **Data Factory V2** resource in the Azure Portal.
+3. Create a **Data Factory V2** resource in the Azure Portal.
 
 <img src="/pictures/data_factory1.png" title="data factory"  width="600">
 
@@ -72,8 +71,25 @@ You should be able to reach your Data Factory Workspace :
 
 <img src="/pictures/data_factory_ws.png" title="data factory workspace"  width="600">
 
+4. Create an **Azure Data Lake Gen 2 storage account**, 1 container, and 1 directory called Staging. This Staging folder will be used while creating the pipelines.
 
-## Step 1 : Create Azure resources
+<img src="/pictures/storage_account1.png" title="storage account"  width="600">
+
+In the Advanced tab, make sure you select *Enable hierarchical namespace* in order to make it a **Gen2** type :
+
+<img src="/pictures/storage_account2.png" title="storage account"  width="600">
+
+In your just created storage account **Storage browser**, create a container that will be used for staging :
+
+<img src="/pictures/staging_container.png" title="staging container"  width="600">
+
+In your just created container, create a directory that will be used for staging :
+
+<img src="/pictures/staging_directory.png" title="staging directory"  width="600">
+
+
+
+## Step 2 : Creating Linked Services
 
 A **Linked Service** is a pipeline component that contains the connection information needed to connect to a data source. For example in order to connect to a SQL Server database, you will need the server name, a user name and password. The Linked Service is the first building block in the process, so it has to be created before creating any other pipeline components.
 
@@ -88,9 +104,6 @@ ADF and Synapse provide connectors to 100 plus data sources under the following 
 - NoSQL : MongodB, Cassandra, Couchbase
 - Services and Apps : Dynamics 365, Concur, AWS Web Service, Salesforce, Snowflake etc.
 
-
-## Step 2 : Creating Linked Services
-
 Let's log into **Azure Data Factory** to create **Linked Services** to the Azure resources we created previously.
 
 Create linked services for each of the following:
@@ -98,6 +111,7 @@ Create linked services for each of the following:
 - Azure SQL Database, the source database
 - Synapse Analytics Workspace, the destination Data Warehouse
 - Azure Data Lake Gen 2 storage account , the source folder staging files
+
 
 
 ## Step 3 : Create Datasets
@@ -108,6 +122,7 @@ Let's create the Datasets in Azure Data Factory for the following data sources. 
 
 - SalesOrderHeader, Customer database tables on the SQL Database
 - SalesOrderHeader, Customer database tables on Synapse Dedicated Pool 
+
 
 
 ## Step 4 : Create Integration Runtimes
