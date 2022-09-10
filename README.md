@@ -140,6 +140,12 @@ Let's create the Datasets in Azure Data Factory for the following data sources. 
 
 2. SalesOrderHeader, Customer database tables on Synapse Dedicated Pool 
 
+<img src="/pictures/datasets_synapse1.png" title="datasets"  width="600">
+<img src="/pictures/datasets_synapse2.png" title="datasets"  width="600">
+
+3. Publish all four datasets
+
+<img src="/pictures/datasets_publish.png" title="datasets publish"  width="600">
 
 
 
@@ -166,5 +172,11 @@ It is important to learn how the location of the IR operates. When you create an
 
 Now create them :
 
-1. Login to ADF and verify that there is already an existing Integration Runtime called "AutoResolveIntegrationRuntime" under Manage-> Integration Runtimes
+1. Login to ADF and verify that there is already an existing Integration Runtime called "AutoResolveIntegrationRuntime" under **Manage** -> **Integration Runtimes**
+
+<img src="/pictures/integration_runtime1.png" title="integration runtime"  width="600">
+
 2. Create a new Integration Runtime for your ADF within in the same region as your Resource Group.
+
+<img src="/pictures/integration_runtime2.png" title="integration runtime"  width="600">
+<img src="/pictures/integration_runtime3.png" title="integration runtime"  width="600">
