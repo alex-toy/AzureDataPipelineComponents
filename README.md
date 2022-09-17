@@ -18,11 +18,11 @@ Pipeline in Azure Data Factory or Synapse are logical grouping of various activi
 
 Relationship between pipelines, activities and datasets:
 
-<img src="/pictures/activities_datasets.png" title="activities datasets"  width="400">
+<img src="/pictures/activities_datasets.png" title="activities datasets"  width="800">
 
 A sample pipeline:
 
-<img src="/pictures/sample_pipeline.png" title="sample pipeline"  width="600">
+<img src="/pictures/sample_pipeline.png" title="sample pipeline"  width="400">
 
 In this project, we'll use these components to build data pipelines. Here are the steps to reproduce the project :
 
@@ -104,26 +104,30 @@ ADF and Synapse provide connectors to 100 plus data sources under the following 
 - NoSQL : MongodB, Cassandra, Couchbase
 - Services and Apps : Dynamics 365, Concur, AWS Web Service, Salesforce, Snowflake etc.
 
-Let's log into **Azure Data Factory** to create **Linked Services** to the Azure resources we created previously.
+Now log into **Azure Data Factory** to create **Linked Services** to the Azure resources we created previously.
 
-1. Azure SQL Database, the source database
+1. Azure SQL Database, the source database. Name : *ls_sqldb_sales*
 
 <img src="/pictures/linked_services_sql1.png" title="linked services SQL Database"  width="600">
 <img src="/pictures/linked_services_sql2.png" title="linked services SQL Database"  width="600">
 
-In case the connection fails, go into the networking section of you SQL database and add a firewall rule to allow you IP address :
+In case the connection fails, go into the networking section of your SQL database server and add a firewall rule to allow your IP address. Don't forget to select *"Allow Azure services and resources to access this server"* :
 
 <img src="/pictures/linked_services_sql_firewall.png" title="sql firewall linked services"  width="600">
 
-2. Azure Data Lake Gen 2 storage account , the source folder staging files
+2. Azure Data Lake Gen 2 storage account , the source folder staging files. Name : *ls_*
 
 <img src="/pictures/linked_services_gen2_1.png" title="linked services gen2"  width="600">
 <img src="/pictures/linked_services_gen2_2.png" title="linked services gen2"  width="600">
 
-3. Synapse Analytics Workspace, the destination Data Warehouse
+3. Synapse Analytics Workspace, the destination Data Warehouse. Name : *ls_synapse*
 
 <img src="/pictures/linked_services_synapse1.png" title="linked services synapse"  width="600">
 <img src="/pictures/linked_services_synapse2.png" title="linked services synapse"  width="600">
+
+In case the connection fails, go into the networking section in your synapse workspace and add a firewall rule to allow your IP address. Don't forget to select *"Allow Azure synapse link for..."* :
+
+<img src="/pictures/synapse_server_firewall_rule.png" title="synapse server firewall rule"  width="600">
 
 
 
@@ -131,14 +135,14 @@ In case the connection fails, go into the networking section of you SQL database
 
 While the **Linked Service** gives the ability to connect to the data source, **Datasets** allow to create a view of data source objects such as database tables and files on Data Lake. We need the datasets for every source object to extract the data and every target object to store the data.
 
-Let's create the Datasets in Azure Data Factory for the following data sources. Run synapse.sql
+Now create the Datasets in **Azure Data Factory** for the following data sources. Select the *Author* tab, then *Datasets*. Run synapse.sql
 
-1. SalesOrderHeader, Customer database tables on the SQL Database
+1. *SalesOrderHeader* and *Customer* database tables on the **SQL Database**. Names : *ds_sqldb_salesorderheader* and *ds_sqldb_customer*
 <img src="/pictures/datasets_sql1.png" title="datasets"  width="600">
 <img src="/pictures/datasets_sql2.png" title="datasets"  width="600">
 <img src="/pictures/datasets_sql3.png" title="datasets"  width="600">
 
-2. SalesOrderHeader, Customer database tables on Synapse Dedicated Pool 
+2. *SalesOrderHeader* and *Customer* database tables on **Synapse Dedicated Pool**. Names : *ds_synapse_salesorderheader* and *ds_synapse_customer*
 
 <img src="/pictures/datasets_synapse1.png" title="datasets"  width="600">
 <img src="/pictures/datasets_synapse2.png" title="datasets"  width="600">
@@ -172,11 +176,11 @@ It is important to learn how the location of the IR operates. When you create an
 
 Now create them :
 
-1. Login to ADF and verify that there is already an existing Integration Runtime called "AutoResolveIntegrationRuntime" under **Manage** -> **Integration Runtimes**
+1. Login to **Azure Data Factory** and verify that there is already an existing Integration Runtime called "AutoResolveIntegrationRuntime" under **Manage** -> **Integration Runtimes**
 
 <img src="/pictures/integration_runtime1.png" title="integration runtime"  width="600">
 
-2. Create a new Integration Runtime for your ADF within in the same region as your Resource Group.
+2. Create a new **Integration Runtime** for your ADF within in the same region as your Resource Group. Name : *IRFranceCentral*
 
 <img src="/pictures/integration_runtime2.png" title="integration runtime"  width="600">
 <img src="/pictures/integration_runtime3.png" title="integration runtime"  width="600">
@@ -187,7 +191,7 @@ Now create them :
 
 Now we will create **Data Flows** in **Azure Data Factory** to perform data transformations using the no-code User Interface.
 
-1. Create Data Flow to extract data from **SalesOrderHeader** table from SQL DB into corresponding table in **Synapse**
+1. Create Data Flow to extract data from **SalesOrderHeader** table from SQL DB into corresponding table in **Synapse**. Name : *sourcetablesalesorderheader*
 
 <img src="/pictures/dataflow_salestableorderheader1.png" title="dataflow salestableorderheader"  width="800">
 <img src="/pictures/dataflow_salestableorderheader2.png" title="dataflow salestableorderheader"  width="800">
@@ -206,9 +210,9 @@ Make sure the mappings are correct :
 <img src="/pictures/dataflow_mappings.png" title="dataflow mappings"  width="600">
 
 Give a name to this data flow and publish it:
-<img src="/pictures/dataflow_publish.png" title="dataflow publish"  width="600">
+<img src="/pictures/dataflow_publish.png" title="dataflow publish"  width="800">
 
-2. Create Data Flow to extract data from Customer table in SQL DB into corresponding table in Synapse.
+2. Create Data Flow to extract data from *Customer* table in SQL DB into corresponding table in Synapse.
 
 <img src="/pictures/dataflow_customer.png" title="dataflow customer"  width="800">
 
@@ -231,8 +235,9 @@ Give a name to this data flow and publish it:
 Now that we have the **Sales Order data** in the **Synapse** table, we will now aggregate Sales by the Customer and store in an Aggregated table.
 
 1. After creating a script in **Azure Synapse**, Create **SalesAggregate table** in Synapse with the following script:
-
+```
 CREATE TABLE SalesAggregate( CustomerID int NOT NULL, TotalSales  float )
+```
 
 CAUTION : make sure you are in the right SQL pool!!
 
@@ -279,7 +284,9 @@ In the end click **Validate** and **Publish**.
 
 Then, trigger the pipeline and go to **Azure Synapse** to run the following query : 
 
+```
 SELECT TOP 100 * FROM SalesAggregate
+```
 
 And see the result :
 
