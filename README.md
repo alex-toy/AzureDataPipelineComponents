@@ -234,7 +234,7 @@ Give a name to this data flow and publish it:
 
 Now that we have the **Sales Order data** in the **Synapse** table, we will now aggregate Sales by the Customer and store in an Aggregated table.
 
-1. After creating a script in **Azure Synapse**, Create **SalesAggregate table** in Synapse with the following script:
+1. Create **SalesAggregate table** in Synapse with the following script:
 ```
 CREATE TABLE SalesAggregate( CustomerID int NOT NULL, TotalSales  float )
 ```
@@ -243,55 +243,87 @@ CAUTION : make sure you are in the right SQL pool!!
 
 <img src="/pictures/create_aggregate.png" title="create aggregate"  width="600">
 
-In **Data Factory**, create a dataset for the synapse sales aggregate table :
+2. Create **Dataflow** to extract *SalesOrderHeader* data from SQL DB, aggregate and then load onto *SalesAggregate* table in Synapse
+
+- In **Data Factory**, create a dataset for the synapse sales aggregate table. Name : *ds_synapse_sales_aggregate_table*
 
 <img src="/pictures/dataset_synapse.png" title="dataset synapse"  width="600">
 <img src="/pictures/dataset_synapse2.png" title="dataset synapse"  width="600">
 
-Then, still in **Data Factory**, create a dataflow for the sales aggregate table :
+- Then, still in **Data Factory**, create a dataflow for the sales aggregate table :
 
 <img src="/pictures/dataflow_salesaggregate.png" title="dataflow salesaggregate"  width="600">
 
-Then, add a filter :
+- Then, add a filter :
 
 <img src="/pictures/dataflow_filter.png" title="dataflow filter"  width="600">
 
-Then, select expression builder :
+- Then, select expression builder :
 
 <img src="/pictures/dataflow_expression_builder.png" title="dataflow expression builder"  width="600">
 
-Then, write a filter :
+- Then, write a filter :
 
 <img src="/pictures/dataflow_expression_builder2.png" title="dataflow expression builder"  width="600">
 
-Then, add a derived column :
+- Then, add a derived column :
 
 <img src="/pictures/dataflow_derived_column.png" title="dataflow derived column"  width="600">
 <img src="/pictures/dataflow_derived_column2.png" title="dataflow derived column"  width="600">
 <img src="/pictures/dataflow_derived_column3.png" title="dataflow derived column"  width="600">
 
-Then, add a sink :
+- Then, add a sink :
 
 <img src="/pictures/dataflow_sink_synapse_sales_aggregate.png" title="dataflow sink"  width="600">
 
-Then publish. 
+- Then publish. 
 
-Then create a new pipeline to test the dataflow. Drag a dataflow activity, select **dataflow aggregate sales** in settings, select the linked service, select the staging directory
-<img src="/pictures/pipeline.png" title="pipeline"  width="600">
+- Then create a new pipeline to test the dataflow. Drag a **Data flow** activity (inside **Move & transform**), select **dataflow aggregate sales** in settings, select the linked service, select the staging directory
+<img src="/pictures/pipeline.png" title="pipeline"  width="800">
 
-In the end click **Validate** and **Publish**.
+- In the end click **Validate** and **Publish**.
 <img src="/pictures/pipeline2.png" title="pipeline"  width="600">
 
-Then, trigger the pipeline and go to **Azure Synapse** to run the following query : 
+- Then, trigger the pipeline and go to **Azure Synapse** to run the following query : 
 
 ```
 SELECT TOP 100 * FROM SalesAggregate
 ```
 
-And see the result :
+- And see the result :
 
 <img src="/pictures/pipeline_result.png" title="pipeline"  width="600">
 
 
-2. Create Dataflow to extract SalesOrderHeader data from SQL DB, aggregate and then load onto SalesAggregate table in Synapse
 
+## Step 7 : Creating Pipelines
+
+
+1. Create a Pipeline and add *SalesOrderHeader* Dataflow to it. Name : *Data flow salesorderheader to synapse*
+
+<img src="/pictures/salesorderheader_to_synapse.png" title="pipeline salesorderheader to synapse"  width="600">
+
+
+2. Create a Pipeline and add *Customer* Dataflow to it.
+
+<img src="/pictures/customer_to_synapse.png" title="pipeline customer to synapse"  width="600">
+
+
+3. Create a Pipeline and add *Aggregate* Dataflow to it.
+
+<img src="/pictures/aggregate_to_synapse.png" title="pipeline aggregate to synapse"  width="600">
+
+
+4. Validate and publish the pipelines
+
+
+
+## Step 7 : Debug, Trigger, and Monitor Pipelines
+
+1. Select SalesOrderHeader Pipeline and debug it and monitor the progress
+
+2. Select Customer Pipeline and debug it and monitor the progress
+
+3. Select Aggregate Pipeline and debug it and monitor the progress
+
+4. Now Execute each Pipelines by clicking in Add Trigger and Trigger Now
